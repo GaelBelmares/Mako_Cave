@@ -1,0 +1,230 @@
+body{
+    font-family: verdana;
+    margin: auto;
+    text-align: center;
+}
+
+/*-------Formulario Login-------------------------------*/
+
+.login-form, .contenedor{
+    width: 450px;
+    margin: 0 auto;
+}
+
+.login-form h1{
+    text-align: center;
+    color: #008b00;
+    font-size: 28px;
+    padding: 70px 0 10px 0;
+}
+
+.login-form input[type="password"],
+.login-form input[type="text"]{
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #008b00;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-family: verdana;
+    border-radius: 5px;
+}
+
+/*------estilos btn login----*/
+.btn-login{
+    width: 450px;
+    padding: 15px;
+    background-color: #8b0064; 
+    border: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    color: #fff;
+    border-radius: 5px;
+    font-family: verdana;
+    margin-top: 20px;
+}
+ 
+.btn-login:hover, .btn-login:active{
+    color: #fff;
+    background-color: #008b00;
+    border: #008b00;
+    border-radius: 5px;
+}
+ 
+.btn-login:focus{
+    box-shadow: 0 0 0 3px rgba(121, 82, 179, .25);
+}
+ 
+/*---------------------------*/
+ 
+/*---estilos btn register----*/
+.btn-register{
+    width: 450px;
+    padding: 15px;
+    background-color: #64008b; 
+    box-sizing: border-box;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 20px;
+    color: #fff;
+    border-radius: 5px;
+    font-family: verdana;
+    text-decoration: none;
+    appearance: button;
+}
+  
+.btn-register:hover, .btn-register:active{
+    color: #fff;
+    border: #008b00;
+    border-radius: 5px;
+}
+  
+.btn-register:focus{
+    box-shadow: 0 0 0 3px rgba(121, 82, 179, .25);
+}
+/*----------------------------*/
+ 
+/*------estilos btn guess----*/
+ .btn-guess{
+    width: 450px;
+    padding: 15px;
+    background-color: #8b0064; 
+    box-sizing: border-box;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 20px;
+    color: #fff;
+    border-radius: 5px;
+    font-family: verdana;
+    text-decoration: none;
+    appearance: button;
+}
+  
+.btn-guess:hover, .btn-register:active{
+    color: #fff;
+    background-color: #008b00;
+    border: #008b00;
+    border-radius: 5px;
+}
+  
+.btn-guess:focus{
+    box-shadow: 0 0 0 3px rgba(121, 82, 179, .25);
+}
+/*---------------------------*/
+
+/*---------------------------------------------------*/
+
+
+/*------Formulario Registrarse----------------------*/
+
+.register-form{
+    width:450px;
+    margin: 0 auto;
+    padding: 0px 20px 60px 20px;
+    margin-top: 35px;
+    font-family: verdana;
+    text-align: left !important;
+}
+
+.register-form h1{
+    text-align: center;
+    color: #008b00;
+ }
+
+/*----estilo select-css------*/
+.select-css{
+    display: block;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.3;
+    padding: .4em 1.4em .3em .8em;
+    width: 450px;
+    max-width: border-box;
+    margin: 0;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+}
+
+.select-css::-ms-expand{
+    display: none;
+}
+
+.select-css:hover{
+    border-color: #008b00;
+}
+
+.select-css:focus{
+    background-color: #008b00;
+    box-shadow: 0 0 1px 3px rgba(0, 139, 0, .7);
+    box-shadow: 0 0 0 3px -moz-mac-focusring;
+    color: #222;
+    outline: none;
+}
+
+.select-css option{
+    font-weight: normal;
+}
+/*---------------------------*/
+
+/*------estilos btn save-----*/
+.btn-save{
+    width: 450px;
+    padding: 15px;
+    background-color: #8b0064; 
+    border: 0;
+    box-sizing: border-box;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    color: #fff;
+    border-radius: 5px;
+    font-family: verdana;
+    margin-top: 20px;
+ }
+ 
+.btn-save:hover, .btn-save:active{
+    color: #fff;
+    background-color: #008b00;
+    border: #008b00;
+    border-radius: 5px;
+}
+ 
+.btn-save:focus{
+    box-shadow: 0 0 0 3px rgba(121, 82, 179, .25);
+}
+/*---------------------------*/
+
+/*------estilos btn cancel----*/
+.btn-cancel{
+    width: 450px;
+    padding: 15px;
+    background-color: #6008b4; 
+    box-sizing: border-box;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: large;
+    margin-top: 20px;
+    color: #fff;
+    border-radius: 5px;
+    font-family: verdana;
+    text-decoration: none;
+    text-align: center;
+    appearance: button;
+}
+ 
+.btn-cancel:hover, .btn-cancel:active{
+    color: #fff;
+    background-color: #008b00;
+    border: #008b00;
+    border-radius: 5px;
+}
+ 
+.btn-cancel:focus{
+    box-shadow: 0 0 0 3px rgba(121, 82, 179, .25);
+}
+/*---------------------------*/
+
+/*-------------------------------------------------*/

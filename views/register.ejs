@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/resources/style.css">
+    <title>Registrarse</title>
+
+</head>
+
+
+<body>
+
+    <div class="register-form">
+
+        <h1>Registrarse</h1>
+
+        <form action="/register" method="post">
+
+            <label for="">Nombre</label>
+            <input type="text" name="name">
+
+            <label for="">Apellidos</label>
+            <input type="text" name="ape">
+
+            <label for="">User Name</label>
+            <input type="text" name="user">
+
+            <label for="">Correo</label>
+            <input type="email" name="correo">
+
+            <label for="">Password</label>
+            <input type="password" name="pass" required>
+
+            <label for="rol">Rol</label>
+            <select name="rol" id="rol" class="select-css">
+                <option value="Regular">Regular</option>
+            </select>
+
+            <input type="submit" class="btn-save" value="Registrarse">
+
+           <!-- <label for=""><a href="term">He leido los terminos y condiciones</a></label>
+            <input type="checkbox" class="term_cond" value="">
+           -->
+            
+            <a href="/" class="btn-cancel">Cancelar</a>
+
+        </form>
+
+    </div>
+    
+</body>
+</html>
