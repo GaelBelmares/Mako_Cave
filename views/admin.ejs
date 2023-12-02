@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/resources/style.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <nav>
+        <ul>
+            <li><a href="/">Inicio</a></li>
+            <li><a href="login">Iniciar Sesión</a></li>
+            <li><a href="admin">Admin</a></li>
+            <li><a href="/logout">Cerrar Sesión</a></li>
+        </ul>
+    </nav>
+
+    <h1>ahora soy admin</h1>
+
+    <div class="table-user">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>NAME</th>
+                    <th>APELLIDOS</th>
+                    <th>USER</th>
+                    <th>CORREO</th>
+                    <th>PASSWORD</th>
+                    <th>ROL</th>
+                    <th>ACCIONES</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let user of users) { %>
+                    <tr>
+                        <td><%= user.id %></td>
+                        <td><%= user.name %></td>
+                        <td><%= user.ape %></td>
+                        <td><%= user.user %></td>
+                        <td><%= user.correo %></td>
+                        <td><%= user.pass %></td>
+                        <td><%= user.rol %></td>
+                        <td>
+                            <a href="/edit/<%= user.id%>">Editar</a>
+                            <a href="/delete">Eliminar</a>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+
+    
+    <div class="register-form">
+
+        <h1>Agregar Usuario</h1>
+
+        <form action="/register" method="post">
+
+            <label for="">Nombre</label>
+            <input type="text" name="name">
+
+            <label for="">Apellidos</label>
+            <input type="text" name="ape">
+
+            <label for="">User Name</label>
+            <input type="text" name="user">
+
+            <label for="">Correo</label>
+            <input type="email" name="correo">
+
+            <label for="">Password</label>
+            <input type="password" name="pass" required>
+
+            <label for="rol">Rol</label>
+            <select name="rol" id="rol" class="select-css">
+                <option value="Admin">Admin</option>
+                <option value="Regular">Regular</option>
+            </select>
+
+            <input type="submit" class="btn-save" value="Registrarse">
+
+           <!-- <label for=""><a href="term">He leido los terminos y condiciones</a></label>
+            <input type="checkbox" class="term_cond" value="">
+           -->
+            
+            <a href="/admin" class="btn-cancel">Cancelar</a>
+
+        </form>
+
+    </div>
+
+</body>
+</html>

@@ -148,12 +148,24 @@ body{
     border-radius: 5px;
 }
 
+.register-form input[type="password"],
+.register-form input[type="email"],
+.register-form input[type="text"]{
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #64008b;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    font-family: verdana;
+    border-radius: 5px;
+}
+
 .select-css::-ms-expand{
     display: none;
 }
 
 .select-css:hover{
-    border-color: #008b00;
+    border-color: #8b0064;
 }
 
 .select-css:focus{
@@ -227,4 +239,88 @@ body{
 }
 /*---------------------------*/
 
-/*-------------------------------------------------*/
+/*---------------------------------------------------*/
+
+
+/*---------Estilo para navbar------------------------*/
+
+/* Estilos para el navbar */
+nav {
+    background-color: #008b00; 
+    padding: 10px; 
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    display: inline; 
+    margin-right: 35px;
+}
+
+a {
+    text-decoration: none; 
+    color: #fff; 
+    font-weight: bold; 
+    font-family: verdana;
+    font-size: 16px; 
+}
+
+a:hover, a:active {
+    text-decoration: underline;
+    color: #fff;
+    background-color: #8b0064;
+    border: #8b0064;
+    border-radius: 5px;
+}
+
+/*---------------------------------------------------*/
+
+
+/*---------------------------------------------------*/
+
+/* Estilos para la tabla de usuarios */
+.table-user {
+    width: 1350px;
+    margin-top: 20px;
+    overflow-x: auto;
+    font-size: 14px;
+}
+
+table {
+    border-collapse: collapse;
+    width: 75%;
+}
+
+thead {
+    background-color: #64008b;
+    color: #fff;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd; 
+}
+
+tbody tr:hover {
+    background-color: #f5f5f5; 
+}
+
+td a {
+    display: inline-block;
+    margin-right: 10px;
+    padding: 5px 10px;
+    text-decoration: none;
+    color: #000;
+    border-radius: 3px;
+}
+
+td a:hover {
+    background-color: #8b0064;
+}
+
+/*---------------------------------------------------*/

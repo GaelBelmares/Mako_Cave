@@ -17,6 +17,7 @@ app.use('/resources', express.static('public'));
 ///Motor de Plantillas
 app.set('view engine', 'ejs');
 
+
 ///Invocar bcryptjs
 const bcryptjs = require('bcryptjs');
 
@@ -31,7 +32,6 @@ app.use(session ({
 ///Invocar conexion a BD
 const connection = require('./database/db');
 
-
 ///Logout
 app.get('/logout', (req, res) =>{
     req.session.destroy(() =>{
@@ -39,7 +39,9 @@ app.get('/logout', (req, res) =>{
     });
 });
 
-////////ARBOL DE RUTAS////////////////////////////////////('
+
+
+////////ARBOL DE RUTAS////////////////////////////////////'
 
 ///Render Login
 app.get('/login', (req, res) =>{
@@ -57,9 +59,10 @@ app.get('/term', (req, res) =>{
 
 //////////////////////////////////////////////////////////
 
-////////////Logica para hacer registro en BD//////////////
-app.post('/register', async (req, res) =>{
 
+////////////Logica para hacer registro en BD//////////////
+
+app.post('/register', async (req, res) =>{
     const name = req.body.name;
     const ape = req.body.ape;
     const user = req.body.user;
@@ -69,7 +72,6 @@ app.post('/register', async (req, res) =>{
     let passwordHaash = await bcryptjs.hash(pass, 8);
 
     connection.query('INSERT INTO users SET ?', {name:name, ape:ape, user: user, correo:correo, pass:passwordHaash, rol:rol}, async(error, results) =>{
-
         if(error){
             console.log(error);
         }else{
@@ -83,13 +85,13 @@ app.post('/register', async (req, res) =>{
                 ruta: ''
             });
         }
-
     });
 });
+
 //////////////////////////////////////////////////////////
 
-/////ogica para hacer autenticación de login//////////////
 
+/////Logica para hacer autenticación de login/////////////
 
 app.post('/auth', async(req, res) =>{
 
@@ -98,11 +100,8 @@ app.post('/auth', async(req, res) =>{
     let passwordHaash = await bcryptjs.hash(pass, 8);
 
     if(user && pass){
-
         connection.query('SELECT * FROM users WHERE user = ?', [user], async (error, results) => {
-
             if(results.length === 0 || !(await bcryptjs.compare(pass, results[0].pass))){
-
                 res.render('login', {
                 alert:true,
                 alertTitle: "Error",
@@ -112,9 +111,7 @@ app.post('/auth', async(req, res) =>{
                 timer: false,
                 ruta: 'login'
                 });
-
             }else{
-
                 req.session.name = results[0].name;
                 res.render('index', {
                 alert:true,
@@ -125,13 +122,9 @@ app.post('/auth', async(req, res) =>{
                 timer: 1500,
                 ruta: ''
                 });
-
             }
-            
         });
-        
     }else{
-
         res.render('login', {
             alert:true,
             alertTitle: "Advertencia",
@@ -141,11 +134,8 @@ app.post('/auth', async(req, res) =>{
             timer: 1500,
             ruta: 'login'
         });
-
     }
-
 });
-
 
 //////////////////////////////////////////////////////////
 
@@ -155,30 +145,80 @@ app.post('/auth', async(req, res) =>{
 app.get('/', (req, res) =>{
 
     if(req.session.loggedin){ 
-
        res.render('index', {
         login: true,
         name: req.session.name
        });
-
     }else{
-
         res.render('index', {
             login: false,
             name: 'Debes iniciar sesión'
         });
-
     }
 });
 
 /////////////////////////////////////////////////////////
 
 
+/////////////Autenticación para Admin////////////////////
+
+app.get('/admin', (req, res) => {
+    connection.query('SELECT * FROM users', (error, results) => {
+        if (error) {
+            console.log(error);
+            res.status(500).send('Error interno del servidor');
+        } else {
+            res.render('admin.ejs', {
+                login: true, 
+                name: 'user',
+                users: results
+            });
+        }
+    });
+});
+
 /////////////////////////////////////////////////////////
+
+
+/////////Renderizar la vista admin///////////////////////
+
+app.get('/admin', (req, res) =>{
+
+    connection.query('SELECT * FROM users', (error, results) => {
+        if(error){
+            throw error;
+        }else{
+            res.render('admin.ejs', {results: results});
+        }
+    });
+
+});
+
+////////////////////////////////////////////////////////
+
+
+////////////Editar Registros/////////////////////////////
+
+app.get('/edit/:id', (req, res) =>{
+
+    const id = req.body.id;
+    connection.query('SELECT * FROM users WHERE id =?', [id], (error, results) =>{
+        if(error){
+            throw error;
+        }else{
+            res.render('edit.ejs', {user: results[0]});
+        }
+    });
+
+});
+
+////////////////////////////////////////////////////////
+
 
 ///////////Conexion al puerto///////////////////////////
 
 app.listen(8000, (req, res) => {
     console.log('Servidor Iniciado')
 });
+
 ///////////////////////////////////////////////////////
