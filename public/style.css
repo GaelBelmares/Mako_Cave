@@ -284,10 +284,11 @@ a:hover, a:active {
 
 /* Estilos para la tabla de usuarios */
 .table-user {
-    width: 1350px;
+    width: 98.5%;
     margin-top: 20px;
     overflow-x: auto;
-    font-size: 14px;
+    font-size: 13.45px;
+    margin-left: 15px;
 }
 
 table {
@@ -316,6 +317,7 @@ td a {
     padding: 5px 10px;
     text-decoration: none;
     color: #000;
+    font-size: 13.45px;
     border-radius: 3px;
 }
 

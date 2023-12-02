@@ -17,7 +17,6 @@ app.use('/resources', express.static('public'));
 ///Motor de Plantillas
 app.set('view engine', 'ejs');
 
-
 ///Invocar bcryptjs
 const bcryptjs = require('bcryptjs');
 
@@ -40,8 +39,16 @@ app.get('/logout', (req, res) =>{
 });
 
 
+///////////Conexion al puerto///////////////////////////
 
-////////ARBOL DE RUTAS////////////////////////////////////'
+app.listen(8000, (req, res) => {
+    console.log('Servidor Iniciado')
+});
+
+///////////////////////////////////////////////////////
+
+
+////////ARBOL DE RUTAS////////////////////////////////////
 
 ///Render Login
 app.get('/login', (req, res) =>{
@@ -59,7 +66,77 @@ app.get('/term', (req, res) =>{
 
 //////////////////////////////////////////////////////////
 
+////////////////////CRUD LOGICA//////////////////////////////////////////////////////
+///////////Logica Editar datos//////////////////////////
 
+app.post('/update', async (req, res) =>{
+    const id = req.body.id;
+    const name = req.body.name;
+    const ape = req.body.ape;
+    const user = req.body.user;
+    const correo = req.body.correo;
+    const rol = req.body.rol;
+    connection.query('UPDATE users SET ? WHERE id = ?', [{user:user, name:name, ape: ape, correo: correo, rol: rol}, id], (error, results) =>{
+        if(error){
+            console.log(error);
+        }else{
+            res.redirect('/admin')
+        }
+    });
+});
+
+////////////////////////////////////////////////////////
+
+
+/////////Logica Eliminar usuarios///////////////////////
+
+app.get('/delete/:id', (req, res) => {
+    const id = req.params.id;
+    connection.query('DELETE FROM users WHERE id = ?', [id], (error, results) => {
+        if(error){
+            throw error;
+        }else{
+            res.redirect('/admin');
+        }
+    });
+});
+
+//////////////////////////////////////////////////////////
+
+
+////////////Logica para hacer registro en BD//////////////
+
+app.post('/add', async (req, res) =>{
+    const name = req.body.name;
+    const ape = req.body.ape;
+    const user = req.body.user;
+    const correo = req.body.correo;
+    const rol = req.body.rol;
+    const pass = req.body.pass;
+    let passwordHaash = await bcryptjs.hash(pass, 8);
+
+    connection.query('INSERT INTO users SET ?', {name:name, ape:ape, user: user, correo:correo, pass:passwordHaash, rol:rol}, async(error, results) =>{
+        if(error){
+            console.log(error);
+        }else{
+            res.render('admin', {
+                alert:true,
+                alertTitle: "registration",
+                alertMessage: "Bienvenido a la cueva",
+                alertIcon: 'succes',
+                showConfirmButton: false,
+                timer: 1500,
+                ruta: ''
+            });
+        }
+    });
+});
+
+//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////
 ////////////Logica para hacer registro en BD//////////////
 
 app.post('/register', async (req, res) =>{
@@ -197,11 +274,11 @@ app.get('/admin', (req, res) =>{
 ////////////////////////////////////////////////////////
 
 
-////////////Editar Registros/////////////////////////////
+////////////Renderizar Editar///////////////////////////
 
 app.get('/edit/:id', (req, res) =>{
 
-    const id = req.body.id;
+    const id = req.params.id;
     connection.query('SELECT * FROM users WHERE id =?', [id], (error, results) =>{
         if(error){
             throw error;
@@ -213,12 +290,3 @@ app.get('/edit/:id', (req, res) =>{
 });
 
 ////////////////////////////////////////////////////////
-
-
-///////////Conexion al puerto///////////////////////////
-
-app.listen(8000, (req, res) => {
-    console.log('Servidor Iniciado')
-});
-
-///////////////////////////////////////////////////////

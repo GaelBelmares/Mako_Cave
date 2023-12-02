@@ -34,18 +34,18 @@
                 </tr>
             </thead>
             <tbody>
-                <% for (let user of users) { %>
+                <% for (let usr of users) { %>
                     <tr>
-                        <td><%= user.id %></td>
-                        <td><%= user.name %></td>
-                        <td><%= user.ape %></td>
-                        <td><%= user.user %></td>
-                        <td><%= user.correo %></td>
-                        <td><%= user.pass %></td>
-                        <td><%= user.rol %></td>
+                        <td><%= usr.id %></td>
+                        <td><%= usr.name %></td>
+                        <td><%= usr.ape %></td>
+                        <td><%= usr.user %></td>
+                        <td><%= usr.correo %></td>
+                        <td><%= usr.pass %></td>
+                        <td><%= usr.rol %></td>
                         <td>
-                            <a href="/edit/<%= user.id%>">Editar</a>
-                            <a href="/delete">Eliminar</a>
+                            <a href="/edit/<%= usr.id %>">Editar</a>
+                            <a href="/delete/<%= usr.id %>">Eliminar</a>
                         </td>
                     </tr>
                 <% } %>
@@ -53,12 +53,19 @@
         </table>
     </div>
 
+    <div>
+        <label for="newPass">Cambiar Contraseña</label>
+        <input type="password" name="newPass" required>
+    </div>
+
+    
+
     
     <div class="register-form">
 
         <h1>Agregar Usuario</h1>
 
-        <form action="/register" method="post">
+        <form action="/add" method="post">
 
             <label for="">Nombre</label>
             <input type="text" name="name">
@@ -81,11 +88,7 @@
                 <option value="Regular">Regular</option>
             </select>
 
-            <input type="submit" class="btn-save" value="Registrarse">
-
-           <!-- <label for=""><a href="term">He leido los terminos y condiciones</a></label>
-            <input type="checkbox" class="term_cond" value="">
-           -->
+            <input type="submit" class="btn-save" value="Agregar usuario">
             
             <a href="/admin" class="btn-cancel">Cancelar</a>
 

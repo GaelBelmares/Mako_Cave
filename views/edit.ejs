@@ -18,44 +18,37 @@
     </nav>
     
     <% if(user){ %>
-    <div>
+    <div class="register-form">
         <h1>Editar Usuario</h1>
-        <form action="/edit" method="post">
+        <form action="/update" method="post">
     
-            <input id="id" name="id" value="<%= user.id%>" hidden>
+            <input id="id" name="id" value="<%= user.id %>" hidden>
 
             <label for="">Nombre</label>
-            <input type="text" name="name">
+            <input type="text" value="<%= user.name %>" name="name">
     
             <label for="">Apellidos</label>
-            <input type="text" name="ape">
+            <input type="text" value="<%= user.ape %>" name="ape">
     
             <label for="">User Name</label>
-            <input type="text" name="user">
+            <input type="text" value="<%= user.user %>" name="user">
     
             <label for="">Correo</label>
-            <input type="email" name="correo">
-    
-            <label for="">Password</label>
-            <input type="password" name="pass" required>
+            <input type="email" value="<%= user.correo %>" name="correo">
     
             <label for="rol">Rol</label>
             <select name="rol" id="rol" class="select-css">
-                <option>value="Admin" >Admin</option>
-                <option value="Regular">Regular</option>
+                <option <%= user.rol== 'Admin' ? "selected": '' %> >Admin</option value="Admin">
+                <option <%= user.rol== 'Regular' ? "selected": '' %> >Regular</option value="Regular">
             </select>
     
-            <input type="submit" class="btn-save" value="Registrarse">
-    
-            <!-- <label for=""><a href="term">He leido los terminos y condiciones</a></label>
-            <input type="checkbox" class="term_cond" value="">
-            -->
-                
+            <input type="submit" class="btn-save" value="Guardar">
+                    
             <a href="/admin" class="btn-cancel">Cancelar</a>
     
         </form>
     </div>
-    <% } 
+    <% } %>
 
 </body>
 </html>
