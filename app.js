@@ -1,6 +1,8 @@
 ///Invocar express
 const express = require('express');
 const app = express();
+///Invocar express-validator
+const { body, validationResult } = require('express-validator');
 
 ///Setear urlencoded para capturar datos en formulario
 app.use(express.urlencoded({extended:false}));
@@ -40,12 +42,10 @@ app.get('/logout', (req, res) =>{
 
 
 ///////////Conexion al puerto///////////////////////////
-
 app.listen(8000, (req, res) => {
     console.log('Servidor Iniciado')
 });
-
-///////////////////////////////////////////////////////
+////////////////////////////////////////////////////////
 
 
 ////////ARBOL DE RUTAS////////////////////////////////////
@@ -73,7 +73,6 @@ app.get('/guess', (req, res) =>{
 
 ////////////////////CRUD LOGICA//////////////////////////////////////////////////////
 ///////////Logica Editar datos//////////////////////////
-
 app.post('/update', async (req, res) =>{
     const id = req.body.id;
     const name = req.body.name;
@@ -94,7 +93,6 @@ app.post('/update', async (req, res) =>{
 
 
 /////////Logica Eliminar usuarios///////////////////////
-
 app.get('/delete/:id', (req, res) => {
     const id = req.params.id;
     connection.query('DELETE FROM users WHERE id = ?', [id], (error, results) => {
@@ -105,58 +103,21 @@ app.get('/delete/:id', (req, res) => {
         }
     });
 });
-
 //////////////////////////////////////////////////////////
 
 
 ////////Logica para hacer alta con admin//////////////////
-
-app.post('/add', async (req, res) =>{
-    const name = req.body.name;
-    const ape = req.body.ape;
-    const user = req.body.user;
-    const correo = req.body.correo;
-    const rol = req.body.rol;
-    const pass = req.body.pass;
-    let passwordHaash = await bcryptjs.hash(pass, 8);
-
-    connection.query('INSERT INTO users SET ?', {name:name, ape:ape, user: user, correo:correo, pass:passwordHaash, rol:rol}, async(error, results) =>{
-        if(error){
-            console.log(error);
-        }else{
-            res.render('admin', {
-                alert:true,
-                alertTitle: "registration",
-                alertMessage: "Bienvenido a la cueva",
-                alertIcon: 'succes',
-                showConfirmButton: false,
-                timer: 1500,
-                ruta: ''
-            });
-        }
-    });
-});
-
-//////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////////////
-////////////Logica para hacer registro en BD//////////////
-
-const { body, validationResult } = require('express-validator');
-
-app.post('/register', [
+app.post('/add', [
     body('name').notEmpty().withMessage('El nombre es obligatorio'),
     body('ape').notEmpty().withMessage('Los apellidos son obligatorios'),
     body('user').notEmpty().withMessage('El nombre de usuario es obligatorio'),
     body('correo').isEmail().withMessage('Ingrese un correo electrónico válido'),
-    body('pass')
-        .isLength({ min: 8 }).withMessage('La password debe minimo 8 caracteres; una letra mayuscula y minuscula; un caracter especial y no tener letras ni numeros consecutivos')
+    body('pass').
+        isLength({ min: 8 }).withMessage('La password debe minimo 8 caracteres; una letra mayuscula y minuscula; un caracter especial y no tener letras ni numeros consecutivos')
         .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/)
         .withMessage('La contraseña debe cumplir con los requisitos de seguridad'),
     body('rol').notEmpty().withMessage('Seleccione un rol')
-], async (req, res) => {
+], async (req, res) =>{
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
         return res.render('register', {
@@ -182,6 +143,59 @@ app.post('/register', [
         if(error){
             console.log(error);
         }else{
+            res.render('admin', {
+                alert:true,
+                alertTitle: "registration",
+                alertMessage: "Bienvenido a la cueva",
+                alertIcon: 'succes',
+                showConfirmButton: false,
+                timer: 1500,
+                ruta: ''
+            });
+        }
+    });
+});
+//////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////////////
+////////////Logica para hacer registro en BD//////////////
+app.post('/register', [
+    body('name').notEmpty().withMessage('El nombre es obligatorio'),
+    body('ape').notEmpty().withMessage('Los apellidos son obligatorios'),
+    body('user').notEmpty().withMessage('El nombre de usuario es obligatorio'),
+    body('correo').isEmail().withMessage('Ingrese un correo electrónico válido'),
+    body('pass')
+        .isLength({ min: 8 }).withMessage('La password debe minimo 8 caracteres; una letra mayuscula y minuscula; un caracter especial y no tener letras ni numeros consecutivos')
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/)
+        .withMessage('La contraseña debe cumplir con los requisitos de seguridad'),
+    body('rol').notEmpty().withMessage('Seleccione un rol')
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('register', {
+            alert: true,
+            alertTitle: 'Error',
+            alertMessage: errors.array().map(error => error.msg).join(),
+            alertIcon: 'error',
+            showConfirmButton: true,
+            timer: 1500,
+            ruta: 'register'
+        });
+    }
+
+    const name = req.body.name;
+    const ape = req.body.ape;
+    const user = req.body.user;
+    const correo = req.body.correo;
+    const rol = req.body.rol;
+    const pass = req.body.pass;
+    let passwordHaash = await bcryptjs.hash(pass, 8);
+    connection.query('INSERT INTO users SET ?', {name:name, ape:ape, user: user, correo:correo, pass:passwordHaash, rol:rol}, async(error, results) =>{
+        if(error){
+            console.log(error);
+        }else{
             res.render('index', {
                 alert:true,
                 alertTitle: "registration",
@@ -194,14 +208,12 @@ app.post('/register', [
         }
     });
 });
-
 //////////////////////////////////////////////////////////
 
 
 /////Logica para hacer autenticación de login/////////////
 
 app.post('/auth', async(req, res) =>{
-
     const user = req.body.user;
     const pass = req.body.pass;
     let passwordHaash = await bcryptjs.hash(pass, 8);
@@ -243,12 +255,10 @@ app.post('/auth', async(req, res) =>{
         });
     }
 });
-
 //////////////////////////////////////////////////////////
 
 
 //////Autenticación a otras paginas//////////////////////
-
 app.get('/', (req, res) =>{
 
     if(req.session.loggedin){ 
@@ -263,12 +273,10 @@ app.get('/', (req, res) =>{
         });
     }
 });
-
 /////////////////////////////////////////////////////////
 
 
 ///////Autenticación y Renderizar Admin//////////////////
-
 app.get('/admin', (req, res) => {
     connection.query('SELECT * FROM users', (error, results) => {
         if (error) {
@@ -283,12 +291,10 @@ app.get('/admin', (req, res) => {
         }
     });
 });
-
 /////////////////////////////////////////////////////////
 
 
 ////////////Renderizar Editar///////////////////////////
-
 app.get('/edit/:id', (req, res) =>{
 
     const id = req.params.id;
@@ -301,5 +307,4 @@ app.get('/edit/:id', (req, res) =>{
     });
 
 });
-
 ////////////////////////////////////////////////////////
