@@ -55,6 +55,7 @@ app.get('/login', (req, res) =>{
     res.render('login.ejs');
 });
 
+//
 app.get('/register', (req, res) =>{
     res.render('register.ejs');
 });
@@ -108,7 +109,7 @@ app.get('/delete/:id', (req, res) => {
 //////////////////////////////////////////////////////////
 
 
-////////////Logica para hacer registro en BD//////////////
+////////Logica para hacer alta con admin//////////////////
 
 app.post('/add', async (req, res) =>{
     const name = req.body.name;
@@ -241,7 +242,7 @@ app.get('/', (req, res) =>{
 /////////////////////////////////////////////////////////
 
 
-/////////////Autenticación para Admin////////////////////
+///////Autenticación y Renderizar Admin//////////////////
 
 app.get('/admin', (req, res) => {
     connection.query('SELECT * FROM users', (error, results) => {
@@ -259,23 +260,6 @@ app.get('/admin', (req, res) => {
 });
 
 /////////////////////////////////////////////////////////
-
-
-/////////Renderizar la vista admin///////////////////////
-
-app.get('/admin', (req, res) =>{
-
-    connection.query('SELECT * FROM users', (error, results) => {
-        if(error){
-            throw error;
-        }else{
-            res.render('admin.ejs', {results: results});
-        }
-    });
-
-});
-
-////////////////////////////////////////////////////////
 
 
 ////////////Renderizar Editar///////////////////////////
