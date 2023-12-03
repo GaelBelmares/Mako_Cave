@@ -239,6 +239,17 @@ body{
 }
 /*---------------------------*/
 
+/*----Estilo error--------------*/
+.error-message {
+    color: #721c24; /* Color de texto rojo oscuro */
+    background-color: #f8d7da; /* Color de fondo rojo claro */
+    padding: 10px; /* Espaciado interno */
+    border: 1px solid #f5c6cb; /* Borde rojo claro */
+    border-radius: 5px; /* Bordes redondeados */
+    margin-bottom: 15px; /* Margen inferior para separar de otros elementos */
+}
+/*---------------------------*/
+
 /*---------------------------------------------------*/
 
 

@@ -55,6 +55,7 @@ app.get('/login', (req, res) =>{
     res.render('login.ejs');
 });
 
+//
 app.get('/register', (req, res) =>{
     res.render('register.ejs');
 });
@@ -108,7 +109,7 @@ app.get('/delete/:id', (req, res) => {
 //////////////////////////////////////////////////////////
 
 
-////////////Logica para hacer registro en BD//////////////
+////////Logica para hacer alta con admin//////////////////
 
 app.post('/add', async (req, res) =>{
     const name = req.body.name;
@@ -143,7 +144,32 @@ app.post('/add', async (req, res) =>{
 /////////////////////////////////////////////////////////////////////////////////////
 ////////////Logica para hacer registro en BD//////////////
 
-app.post('/register', async (req, res) =>{
+const { body, validationResult } = require('express-validator');
+
+app.post('/register', [
+    body('name').notEmpty().withMessage('El nombre es obligatorio'),
+    body('ape').notEmpty().withMessage('Los apellidos son obligatorios'),
+    body('user').notEmpty().withMessage('El nombre de usuario es obligatorio'),
+    body('correo').isEmail().withMessage('Ingrese un correo electrónico válido'),
+    body('pass')
+        .isLength({ min: 8 }).withMessage('La password debe minimo 8 caracteres; una letra mayuscula y minuscula; un caracter especial y no tener letras ni numeros consecutivos')
+        .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+{}\[\]:;<>,.?~\\/-]).{8,}$/)
+        .withMessage('La contraseña debe cumplir con los requisitos de seguridad'),
+    body('rol').notEmpty().withMessage('Seleccione un rol')
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.render('register', {
+            alert: true,
+            alertTitle: 'Error',
+            alertMessage: errors.array().map(error => error.msg).join('<br>'),
+            alertIcon: 'error',
+            showConfirmButton: true,
+            timer: 1500,
+            ruta: 'register'
+        });
+    }
+
     const name = req.body.name;
     const ape = req.body.ape;
     const user = req.body.user;
@@ -241,7 +267,7 @@ app.get('/', (req, res) =>{
 /////////////////////////////////////////////////////////
 
 
-/////////////Autenticación para Admin////////////////////
+///////Autenticación y Renderizar Admin//////////////////
 
 app.get('/admin', (req, res) => {
     connection.query('SELECT * FROM users', (error, results) => {
@@ -259,23 +285,6 @@ app.get('/admin', (req, res) => {
 });
 
 /////////////////////////////////////////////////////////
-
-
-/////////Renderizar la vista admin///////////////////////
-
-app.get('/admin', (req, res) =>{
-
-    connection.query('SELECT * FROM users', (error, results) => {
-        if(error){
-            throw error;
-        }else{
-            res.render('admin.ejs', {results: results});
-        }
-    });
-
-});
-
-////////////////////////////////////////////////////////
 
 
 ////////////Renderizar Editar///////////////////////////

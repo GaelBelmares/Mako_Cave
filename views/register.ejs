@@ -33,6 +33,12 @@
             <label for="">Password</label>
             <input type="password" name="pass" required>
 
+            <% if(typeof alert != "undefined" && alertTitle === 'Error'){ %>
+                <div class="error-message">
+                    <%= alertMessage %>
+                </div>
+            <% } %>
+
             <label for="rol">Rol</label>
             <select name="rol" id="rol" class="select-css">
                 <option value="Regular">Regular</option>
