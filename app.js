@@ -1,8 +1,25 @@
 ///Invocar express
 const express = require('express');
 const app = express();
+
 ///Invocar express-validator
 const { body, validationResult } = require('express-validator');
+
+/*
+///////////Certificación/////////////////
+///Invocar FS
+const fs = require('fs');
+const https = require('https');
+
+https.createServer({
+    cert: fs.readFileSync('server.crt'),
+    key: fs.readFileSync('server.key')
+}, app).listen(443, (req, res) => {
+    console.log('Servidor iniciado en puerto 443');
+});
+/////////////////////////////////////////
+*/
+
 
 ///Setear urlencoded para capturar datos en formulario
 app.use(express.urlencoded({extended:false}));
@@ -42,7 +59,7 @@ app.get('/logout', (req, res) =>{
 
 
 ///////////Conexion al puerto///////////////////////////
-app.listen(8000, (req, res) => {
+app.listen(8080, (req, res) => {
     console.log('Servidor Iniciado')
 });
 ////////////////////////////////////////////////////////
@@ -50,12 +67,19 @@ app.listen(8000, (req, res) => {
 
 ////////ARBOL DE RUTAS////////////////////////////////////
 
+
+///Renderizar Index
+app.get('/', function(req, res){
+    res.render('index.ejs');
+    console.log('Entrado correctamente');
+});
+
 ///Render Login
 app.get('/login', (req, res) =>{
     res.render('login.ejs');
 });
 
-//
+///Renderizar Register
 app.get('/register', (req, res) =>{
     res.render('register.ejs');
 });
@@ -68,8 +92,8 @@ app.get('/term', (req, res) =>{
 app.get('/guess', (req, res) =>{
     res.render('guess.ejs');
 });
-
 //////////////////////////////////////////////////////////
+
 
 ////////////////////CRUD LOGICA//////////////////////////////////////////////////////
 ///////////Logica Editar datos//////////////////////////
@@ -88,7 +112,6 @@ app.post('/update', async (req, res) =>{
         }
     });
 });
-
 ////////////////////////////////////////////////////////
 
 
@@ -212,7 +235,6 @@ app.post('/register', [
 
 
 /////Logica para hacer autenticación de login/////////////
-
 app.post('/auth', async(req, res) =>{
     const user = req.body.user;
     const pass = req.body.pass;
@@ -258,7 +280,7 @@ app.post('/auth', async(req, res) =>{
 //////////////////////////////////////////////////////////
 
 
-//////Autenticación a otras paginas//////////////////////
+/*//////Autenticación a otras paginas//////////////////////
 app.get('/', (req, res) =>{
 
     if(req.session.loggedin){ 
@@ -273,7 +295,7 @@ app.get('/', (req, res) =>{
         });
     }
 });
-/////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////*/
 
 
 ///////Autenticación y Renderizar Admin//////////////////
