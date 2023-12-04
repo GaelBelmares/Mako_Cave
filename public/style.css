@@ -337,3 +337,27 @@ td a:hover {
 }
 
 /*---------------------------------------------------*/
+
+/*------Pie de Pagina--------------------------------*/
+.contact-bar {
+    background-color: #8b0064;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    font-family: verdana;
+    height: 35px;
+}
+
+.contact-bar a {
+    color: #fff;
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.contact-bar a:hover {
+    text-decoration: underline;
+}
+/*---------------------------------------------------*/
