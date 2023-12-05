@@ -5,21 +5,6 @@ const app = express();
 ///Invocar express-validator
 const { body, validationResult } = require('express-validator');
 
-/*
-///////////Certificación/////////////////
-///Invocar FS
-const fs = require('fs');
-const https = require('https');
-
-https.createServer({
-    cert: fs.readFileSync('server.crt'),
-    key: fs.readFileSync('server.key')
-}, app).listen(443, (req, res) => {
-    console.log('Servidor iniciado en puerto 443');
-});
-/////////////////////////////////////////
-*/
-
 
 ///Setear urlencoded para capturar datos en formulario
 app.use(express.urlencoded({extended:false}));
@@ -52,10 +37,26 @@ const connection = require('./database/db');
 
 ///Logout
 app.get('/logout', (req, res) =>{
-    req.session.destroy(() =>{
-        res.redirect('login');
+    req.session.destroy(() => {
+        res.redirect('/');
     });
 });
+
+/*
+///////////Certificación/////////////////
+///Invocar FS
+const fs = require('fs');
+const https = require('https');
+
+https.createServer({
+    cert: fs.readFileSync('server.crt'),
+    key: fs.readFileSync('server.key')
+}, app).listen(443, (req, res) => {
+    console.log('Servidor iniciado en puerto 443');
+});
+/////////////////////////////////////////
+*/
+
 
 
 ///////////Conexion al puerto///////////////////////////
@@ -65,18 +66,17 @@ app.listen(8080, (req, res) => {
 ////////////////////////////////////////////////////////
 
 
-////////ARBOL DE RUTAS////////////////////////////////////
-
-
-///Renderizar Index
-app.get('/', function(req, res){
-    res.render('index.ejs');
-    console.log('Entrado correctamente');
-});
-
-///Render Login
-app.get('/login', (req, res) =>{
+//////Iniciar Login//////////////////////
+app.get('/', (req, res) =>{
     res.render('login.ejs');
+});
+//////////////////////////////////////////
+
+
+////////ARBOL DE RUTAS////////////////////////////////////
+///Render index
+app.get('/index', (req, res) =>{
+    res.render('index.ejs');
 });
 
 ///Renderizar Register
@@ -219,15 +219,7 @@ app.post('/register', [
         if(error){
             console.log(error);
         }else{
-            res.render('index', {
-                alert:true,
-                alertTitle: "registration",
-                alertMessage: "Bienvenido a la cueva",
-                alertIcon: 'succes',
-                showConfirmButton: false,
-                timer: 1500,
-                ruta: ''
-            });
+            res.render('index');
         }
     });
 });
@@ -254,48 +246,14 @@ app.post('/auth', async(req, res) =>{
                 });
             }else{
                 req.session.name = results[0].name;
-                res.render('index', {
-                alert:true,
-                alertTitle: "Conexion Exitosa",
-                alertMessage: "Bienvenido a la cueva",
-                alertIcon: 'succes',
-                showConfirmButton: false,
-                timer: 1500,
-                ruta: ''
-                });
+                res.render('index');
             }
         });
     }else{
-        res.render('login', {
-            alert:true,
-            alertTitle: "Advertencia",
-            alertMessage: "Ingrese un usuario y contraseña",
-            alertIcon: 'warning',
-            showConfirmButton: true,
-            timer: 1500,
-            ruta: 'login'
-        });
+        res.render('login.ejs');
     }
 });
 //////////////////////////////////////////////////////////
-
-
-/*//////Autenticación a otras paginas//////////////////////
-app.get('/', (req, res) =>{
-
-    if(req.session.loggedin){ 
-       res.render('index', {
-        login: true,
-        name: req.session.name
-       });
-    }else{
-        res.render('index', {
-            login: false,
-            name: 'Debes iniciar sesión'
-        });
-    }
-});
-/////////////////////////////////////////////////////////*/
 
 
 ///////Autenticación y Renderizar Admin//////////////////
